@@ -1,10 +1,18 @@
 const express = require('express');
-const router = express.Router();
-const dataController = require('../controllers/data.controller');
+const cors = require('cors');
+const bodyParser = require('body-parser');
+const sequelize = require('./config');
+const ItemRoutes = require('./routes/item.routes');
 
-router.get('/', dataController.getAllData);
-router.post('/', dataController.createData);
-router.put('/:id', dataController.updateData);
-router.delete('/:id', dataController.deleteData);
+const app = express();
+const PORT = 3000;
 
-module.exports = router;
+app.use(cors());
+app.use(bodyParser.json());
+
+app.use('/items', ItemRoutes);
+
+sequelize.sync().then(() => {
+  console.log('Database synced');
+  app.listen(PORT, () => console.log(`Server running on http://localhost:${PORT}`));
+}).catch(err => console.error('Error syncing database:', err));

@@ -1,14 +1,15 @@
-const { Sequelize, DataTypes } = require('sequelize');
-const sequelize = new Sequelize({
-  dialect: 'sqlite',
-  storage: './database.sqlite'
-});
+const { DataTypes } = require('sequelize');
+const sequelize = require('../config');
 
-const DataItem = sequelize.define('Data', {
+const Item = sequelize.define('Item', {
   name: {
     type: DataTypes.STRING,
+    allowNull: false
+  },
+  description: {
+    type: DataTypes.TEXT,
     allowNull: false
   }
 });
 
-module.exports = { DataItem, sequelize };
+module.exports = Item;
